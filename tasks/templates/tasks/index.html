@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+</head>
+<body>
+    <form action="{% url 'add' %}" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="add">
+    </form>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                {% if task.finished %}
+                    <input type="checkbox" checked>
+                {% else %}
+                    <input type="checkbox">
+                {% endif %}
+                {{ task.description }}
+                <a href="{% url 'delete' task.id %}">delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
