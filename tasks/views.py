@@ -31,5 +31,15 @@ def delete(request, id):
     return HttpResponseRedirect(reverse('index'))
 
 
-def update(request):
-    pass
+def update(request, id):
+    if request.method == 'POST':
+        finished = request.POST.get('finished')
+        if finished:
+            task = Task.objects.get(id=id)
+            task.finished = True
+            task.save()
+        else:
+            task = Task.objects.get(id=id)
+            task.finished = False
+            task.save()
+    return HttpResponseRedirect(reverse('index'))

@@ -15,14 +15,30 @@
         {% for task in tasks %}
             <li>
                 {% if task.finished %}
-                    <input type="checkbox" checked>
+                    <form action="{% url 'update' task.id %}" method="POST" class="checkbox-form">
+                        {% csrf_token %}
+                        <input type="checkbox" checked name="finished">
+                    </form>
                 {% else %}
-                    <input type="checkbox">
+                    <form action="{% url 'update' task.id %}" method="POST" class="checkbox-form">
+                        {% csrf_token %}
+                        <input type="checkbox" name="finished">
+                    </form>
                 {% endif %}
                 {{ task.description }}
                 <a href="{% url 'delete' task.id %}">delete</a>
             </li>
         {% endfor %}
     </ul>
+
+    <script>
+        const checkboxInputs = document.querySelectorAll('input[type="checkbox"]')
+        checkboxInputs.forEach(input => {
+            input.addEventListener('click', (e) => {
+                const form = e.target.parentElement
+                form.submit()
+            })
+        })
+    </script>
 </body>
 </html>
